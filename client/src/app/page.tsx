@@ -30,7 +30,7 @@ const Home = () => {
     }
   ]);
   const [currentMessage, setCurrentMessage] = useState("");
-  const [checkpointId, setCheckpointId] = useState(null);
+  const [checkpointId, setCheckpointId] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,11 +79,11 @@ const Home = () => {
         // Connect to SSE endpoint using EventSource
         const eventSource = new EventSource(url);
         let streamedContent = "";
-        let searchData = null;
+        let searchData: SearchInfo | null = null;
         let hasReceivedContent = false;
 
         // Process incoming messages
-        eventSource.onmessage = (event) => {
+        eventSource.onmessage = (event: MessageEvent) => {
           try {
             const data = JSON.parse(event.data);
 
@@ -190,7 +190,7 @@ const Home = () => {
         };
 
         // Handle errors
-        eventSource.onerror = (error) => {
+        eventSource.onerror = (error: Event) => {
           console.error("EventSource error:", error);
           eventSource.close();
 
